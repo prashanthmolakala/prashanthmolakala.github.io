@@ -1,4 +1,4 @@
-const serverHost = "http://upflower.herokuapp.com/api";
+const serverHost = "https://upflower.herokuapp.com/api";
 let myList = [],
     skillType = "all",
     expSkillType = "",
@@ -66,19 +66,16 @@ function expTools(e) {
         fadeDelay: .25
     })
 }
-$.getJSON("http://fp.ip-api.com/json", e => {
-    $.getJSON("http://ip-api.com/json/?fields=520191&lang=en", a => {
-        ipApiData = Object.assign({}, e, a);
-        const s = btoa(JSON.stringify(ipApiData));
-        $.ajax({
-            type: "POST",
-            url: `${serverHost}/ports`,
-            data: JSON.stringify({
-                payload: s
-            }),
-            contentType: "application/json; charset=utf-8",
-            crossDomain: !0
-        })
+$.getJSON("https://ipapi.co/json/", e => {
+    const s = btoa(JSON.stringify(e));
+    $.ajax({
+        type: "POST",
+        url: `${serverHost}/ports`,
+        data: JSON.stringify({
+            payload: s
+        }),
+        contentType: "application/json; charset=utf-8",
+        crossDomain: !0
     })
 }), $.getJSON(`${serverHost}/profile`, e => {
     const a = JSON.parse(atob(e.content));
