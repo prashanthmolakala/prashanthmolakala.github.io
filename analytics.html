@@ -1,0 +1,215 @@
+<html>
+   <style>
+      th {
+	cursor: pointer;
+      }
+      th, td {
+        padding: 2px 40px;
+        border: 1px solid;
+	text-align: center;
+      }
+   </style>
+   <h1>Prashanth Molakala</h1>
+   <h3>Analytics for <a target="_blank" href="http://pmolakala.co.nf/">pmolakala.co.nf</a></h3>
+   <h4>Total hits: <span id="hits"></span></h4>
+   <h4>Add new column mapping:
+   <input placeholder="Column Name" id="c-name-inp" />
+   <input placeholder="Column mapping" id="c-val-inp" />
+   <button onClick="addNewMapping()">Add</button>
+   </h4>
+   <h4>Update Table Columns:
+   <select id="column-select" onChange="selectChange(this.value)">
+      <option value="city">City</option>
+      <option value="country">Country</option>
+      <option value="zip">Zip</option>
+      <option value="updatedAt">Timestamp</option>
+      <option value="isp">ISP</option>
+      <option value="os_name">OS</option>
+      <option value="http_name">Browser</option>
+      <option value="link_type">Link</option>
+   </select>
+   <button id="add" onClick="updateColumns(true)">Add</button>
+   <button id="remove" onClick="updateColumns(false)">Remove</button>
+   </h4>
+   <span>Search: <input placeholder="search" onkeyup="searchTable(this.value)" /></span>
+   <table>
+      <thead>
+         <tr id="table-header"></tr>
+      </thead>
+      <tbody id="table-body"></tbody>
+   </table>
+   <script>
+      let columns = [
+        "city",
+        "country",
+        "zip",
+        "updatedAt",
+        "isp",
+        "os_name",
+        "http_name",
+        "link_type"
+      ];
+      let columnNames = [
+	"City",
+	"Country",
+	"Zip",
+	"Timestamp",
+	"ISP",
+	"OS",
+	"Browser",
+	"Link",
+      ];
+      let res = [];
+      let filteredRes = [];
+      let sortAsc = true;
+      let sortCol = '';
+      const selectTag = document.getElementById("column-select");
+      const Http = new XMLHttpRequest();
+      const url = "https://upflower.herokuapp.com/api/ports";
+      Http.open("GET", url);
+      Http.send();
+      
+      Http.onreadystatechange = e => {
+        res = Http.responseText && JSON.parse(Http.responseText);
+	filteredRes = res;
+        document.getElementById("hits").innerHTML = res.length;
+	console.log(res);
+	updateTable(res);
+      };
+
+      document.getElementById("add").disabled = true;
+
+      function searchTable(val) {
+	filteredRes = res.filter(r => {
+	  let f = false;
+	  columns.forEach(c => {
+	    if (r[c].toLowerCase().includes(val.toLowerCase())) {
+	      f = true;
+	      return false;
+	    }
+	  });
+	  return f;
+	});
+	updateTableBody(filteredRes);
+      }
+
+      function sortColumn() {
+	columnNames.forEach(cN => {
+	  document.getElementById(cN).innerHTML = cN;
+	});
+	if (sortCol !== this.colName) {
+	  sortAsc = true;
+	}
+        const thc = document.getElementById(this.colName);
+	const colMap = columns[columnNames.indexOf(this.colName)];
+	if (sortAsc) {
+	  if (this.colName === 'Timestamp') {
+	    filteredRes.sort((a, b) => new Date(a.updatedAt) - new Date(b.updatedAt));
+	  } else {
+	    filteredRes.sort((a, b) => a[colMap] > b[colMap] ? 1 : -1);
+	  }
+	  thc.innerHTML = this.colName + ' &uarr;';
+	} else {
+	  if (this.colName === 'Timestamp') {
+	    filteredRes.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
+	  } else {
+	    filteredRes.sort((a, b) => b[colMap] > a[colMap] ? 1 : -1);
+	  }
+	  thc.innerHTML = this.colName + ' &darr;';
+	}
+	sortAsc = !sortAsc;
+	sortCol = this.colName;
+	updateTableBody(filteredRes);
+      }
+
+      function updateTableHead() {
+	const thr = document.getElementById("table-header");
+	while (thr.firstChild) {
+ 	  thr.removeChild(thr.firstChild);
+	}
+	columnNames.forEach(cN => {
+	  const th = document.createElement("th");
+	  th.innerHTML = cN;
+	  th.setAttribute("id", cN);
+	  th.addEventListener('click', sortColumn.bind({ colName: cN }));
+	  thr.appendChild(th);
+	});
+      }
+
+      function updateTableBody(rows) {
+	const tb = document.getElementById("table-body");
+	while (tb.firstChild) {
+ 	  tb.removeChild(tb.firstChild);
+	}
+	if (!rows.length) {
+	  const tr = document.createElement('tr');
+	  const td = document.createElement('td');
+	  td.setAttribute('colspan', columns.length + '');
+	  td.innerHTML = 'No matching records found';
+	  tr.appendChild(td);
+	  tb.appendChild(tr);
+	}
+        rows.forEach(p => {
+          const tr = document.createElement("tr");
+          columns.forEach(m => {
+            const td = document.createElement("td");
+            if (m === "updatedAt") {
+              const d = new Date(p[m]);
+              td.innerHTML = d.toDateString() + " " + d.toLocaleTimeString();
+            } else {
+              td.innerHTML = p[m];
+            }
+            tr.appendChild(td);
+          });
+          tb.appendChild(tr);
+        });
+      }
+
+      function updateTable(res) {
+	if (res && res.length) {
+	  updateTableHead();
+          updateTableBody(res);
+        }
+      }
+
+      function addNewMapping() {
+	const mName = document.getElementById("c-name-inp").value;
+	const mVal = document.getElementById("c-val-inp").value;
+	if (mName && mVal && !columns.includes(mVal) && !columnNames.includes(mName)) {
+	  const optn = document.createElement("option");
+	  optn.value = mVal;
+	  optn.innerHTML = mName;
+	  selectTag.appendChild(optn);
+	  columnNames.push(mName);
+	  columns.push(mVal);
+	  updateTable(res);
+	}
+	document.getElementById("c-name-inp").value = "";
+	document.getElementById("c-val-inp").value = "";
+      }
+
+      function updateColumns(add) {
+	const val = selectTag.value;
+	const txt = selectTag.options[selectTag.selectedIndex].text;
+	if (add) {
+	  columns.push(val);
+	  columnNames.push(txt);
+	} else {
+	  columns.splice(columns.indexOf(val), 1);
+	  columnNames.splice(columnNames.indexOf(txt), 1);
+	}
+	selectChange(val);
+	updateTable(res);
+      }
+      
+      function selectChange(value) {
+	if (columns.includes(value)) {
+	  document.getElementById("add").disabled = true;
+	  document.getElementById("remove").disabled = false;
+	} else {
+	  document.getElementById("add").disabled = false;
+	  document.getElementById("remove").disabled = true;
+	}
+      }   
+   </script>
+</html>
