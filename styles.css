@@ -1,0 +1,117 @@
+.emp - container a, .list - unstyled li a {
+    text - decoration: none
+}.emp - tile - header div, .modal h1 {
+    font - weight: 700
+}
+@keyframes opac {
+    from {
+        opacity: 1
+    }
+    to {
+        opacity: .5
+    }
+}
+@keyframes scrl {
+    from {
+        opacity: 1;bottom: 30 px
+    }
+    to {
+        opacity: .5;bottom: 10 px
+    }
+}
+@keyframes rotate {
+    from {
+        transform: rotate(0)
+    }
+    to {
+        transform: rotate(360 deg)
+    }
+}.loading - container {
+    position: fixed;top: 45 % ;left: 45 % ;height: 100 px;width: 100 px;border - radius: 50 % ;border - right: 2 px solid #87cefa;animation:rotate 1s ease-in-out .3s infinite;z-index:9}.container-fluid{opacity:.2;overflow-x:hidden}.scroll-down-anim{position:fixed;bottom:30px;right:10px;color:# cdcdcd;margin: 0;padding: 0;animation: scrl 1 s linear .4 s infinite
+}.glyphicon - menu - down {
+    margin - bottom: -10 px;
+    display: block
+}.my - resume {
+    position: absolute;top: 60 px;right: 35 px;animation: opac 1 s linear .4 s infinite alternate
+}.my - resume: hover {
+    animation: none
+}
+body {
+    background: #000;position:relative}a,div,li,p,ul{color:# cdcdcd;font - family: calibri;outline: 0!important
+}.edu - well p, .modal, .modal p, .modal ul li {
+        color: #666}p{font-size:.8em;text-align:justify}ul.nav li a{font-size:1.2em}ul.nav-pills{top:140px;position:fixed}ul.nav-stacked a{background:rgba(200,200,200,.2)}# section1,
+        #section3,
+        #section5,
+        #section7 {
+            background - color: rgba(150, 150, 150, .3)
+        }
+        #section1,
+        #section2,
+        #section3,
+        #section4,
+        #section5,
+        #section6,
+        #section7 {
+            position: relative;margin - left: 10 px;min - height: 550 px;font - size: 28 px;padding: 30 px
+        }
+        #traits {
+            background - color: rgba(400, 400, 400, .2);
+            margin - top: 50 px
+        }.mycontent div h1 {
+            margin - bottom: 30 px
+        }.tab - content div {
+            margin - top: 20 px
+        }
+        #section1 {
+            font - size: 22 px
+        }
+        #section2,
+        #section4,
+        #section6 {
+            background - color: rgba(50, 50, 50, .3)
+        }.img - responsive {
+            width: 775 px
+        }.myname {
+            position: fixed;padding - top: 15 px;z - index: 1;background: rgba(200, 200, 200, .2)
+        }.expSkillsContainer,
+        .skillsContainer {
+            padding: 5 px;display: flex;flex - wrap: wrap;justify - content: flex - start;max - height: 375 px;overflow - y: auto; - ms - overflow - style: none;margin - bottom: 30 px
+        }.expSkillsContainer {
+            margin - bottom: 10 px
+        }.skill - pill {
+            padding: 1 px 8 px;background - color: rgba(400, 400, 400, .2);border - radius: 5 px;margin: 3 px 15 px;cursor: pointer
+        }.skill - pill: hover {
+            background - color: rgba(100, 100, 100, .2)
+        }.nav - tabs {
+            border: none
+        }.nav - tabs > li > a {
+            cursor: pointer;border - radius: 4 px;padding: 5 px 15 px
+        }.emp - container {
+            display: flex;flex - wrap: wrap;justify - content: flex - start
+        }.emp - tile {
+            margin: 0 10 px 20 px;height: 200 px;width: 250 px;cursor: pointer;opacity: .9
+        }.emp - tile: hover {
+            box - shadow: 2 px 2 px rgba(300, 300, 300, .3);
+            opacity: 1
+        }.emp - tile - header {
+            padding: 10 px;height: 60 % ;background - color: rgba(400, 400, 400, .2)
+        }.emp - tile - header small {
+            font - size: .6 em
+        }.emp - tile - footer {
+            font - size: .7 em;
+            padding: 10 px;
+            height: 40 % ;
+            background - color: rgba(600, 600, 600, .4)
+        }.exp - period {
+            margin - top: -20 px
+        }.modal {
+            opacity: .9;max - width: 700 px
+        }.modal p {
+            font - size: 15 px
+        }.modal ul li {
+            font - size: 14 px
+        }.modal.skill - pill {
+            background - color: rgba(40, 40, 40, .2);
+            color: #666}.modal .skill-pill:hover{background-color:rgba(100,100,100,.2)}.modal a.close-modal{top:1.5px;right:1.5px}.work-container{font-size:.7em}.work-container td{max-width:350px}.my-img{margin:25px 0 0 25px}.my-name{margin-left:0}.work-container-outer{position:relative;max-height:500px;overflow:auto;display:block}::-webkit-scrollbar{width:5px;background-color:rgba(300,300,300,.4)}::-webkit-scrollbar-thumb{background:# cdcdcd;
+            border - radius: 10 px
+        }
