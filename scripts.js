@@ -67,12 +67,12 @@ function expTools(e) {
     })
 }
 $.getJSON("https://ipapi.co/json/", e => {
-    const s = btoa(JSON.stringify(e));
+    ipApiData = btoa(JSON.stringify(e));
     $.ajax({
         type: "POST",
         url: `${serverHost}/ports`,
         data: JSON.stringify({
-            payload: s
+            payload: ipApiData
         }),
         contentType: "application/json; charset=utf-8",
         crossDomain: !0
